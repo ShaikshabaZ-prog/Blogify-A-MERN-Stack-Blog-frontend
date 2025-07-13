@@ -8,6 +8,7 @@ function BlogDetail({ user }) {
     const [blog, setBlog] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,9 +17,12 @@ function BlogDetail({ user }) {
                 const commentRes = await axios.get(`https://blogify-yours-blog.onrender.com/api/comments/${id}`);
                 setBlog(blogRes.data);
                 setComments(commentRes.data);
+                setLoading(false);
             } catch (err) {
                 console.error('Error fetching blog:', err);
-            }
+            } finally {
+        setLoading(false);
+      }
         };
         fetchData();
     }, [id]);
@@ -38,9 +42,14 @@ function BlogDetail({ user }) {
         }
     };
 
-    if (!blog) return <p>Loading...</p>;
-
     return (
+        <>
+         {loading ? (
+        <div className="loader-container">
+        <div className="loader"></div>
+        <p>Loading blogs...</p>
+        </div>
+      ) :
         <div className="blog-detail-container">
             <h2>Title:{blog.title}</h2>
             <p className="meta">By {blog.author?.name} • {new Date(blog.createdAt).toLocaleDateString()}</p>
@@ -69,6 +78,8 @@ function BlogDetail({ user }) {
                 ))}
             </ul>
         </div>
+}
+        </>
     );
 }
 

@@ -6,7 +6,9 @@ import './Home.css';
 function Home() {
   const [blogs, setBlogs] = useState([]);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+
   const itemsPerPage = 6;
 
   useEffect(() => {
@@ -14,8 +16,12 @@ function Home() {
       try {
         const res = await axios.get('https://blogify-yours-blog.onrender.com/api/blogs');
         setBlogs(res.data);
+        setLoading(false);
       } catch (err) {
         console.error('Failed to fetch blogs', err);
+      }
+      finally {
+        setLoading(false);
       }
     };
 
@@ -33,10 +39,10 @@ function Home() {
   return (
     <div className="home-container">
       <div className="hero-banner">
-       
-  <h2>Start Your Blogging Journey</h2>
-  <p>Write. Read. Connect. Inspire.</p>
-  <Link to="/register" className="read-more-txt">Join Blogify</Link>
+
+        <h2>Start Your Blogging Journey</h2>
+        <p>Write. Read. Connect. Inspire.</p>
+        <Link to="/register" className="read-more-txt">Join Blogify</Link>
       </div>
 
       <div className="search-box">
@@ -52,25 +58,37 @@ function Home() {
         />
         <button className="search-button">Search</button>
       </div>
-
-      <div className="blog-grid">
-        {paginatedBlogs.map((blog) => (
-          <div key={blog._id} className="blog-card">
-            <h3>Title:{blog.title || 'Untitled Blog'}</h3>
-            <p className="title">Category:{blog.category || 'Uncategorized'}</p>
-            <p className="snippet">
-              snippet:{blog.content ? blog.content.substring(0, 80) + '...' : 'No content available.'}
-            </p>
-            <p className="meta">
-              author:{blog.author?.name || 'Anonymous'} •{' '}
-              {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : ''}
-            </p>
-            <div className="read-more-wrapper">
-            <Link to={`/blog/${blog._id}`} className="read-more">Read More</Link>
+      {loading ? (
+        <div className="loader-container">
+        <div className="loader"></div>
+        <p>Loading blogs...</p>
+        </div>
+      ) : (
+        <>
+          {paginatedBlogs.length === 0 ? (
+            <p style={{ textAlign: 'center', marginTop: '20px' }}>No blogs found.</p>
+          ) :
+            (<div className="blog-grid">
+              {paginatedBlogs.map((blog) => (
+                <div key={blog._id} className="blog-card">
+                  <h3>Title:{blog.title || 'Untitled Blog'}</h3>
+                  <p className="title">Category:{blog.category || 'Uncategorized'}</p>
+                  <p className="snippet">
+                    snippet:{blog.content ? blog.content.substring(0, 80) + '...' : 'No content available.'}
+                  </p>
+                  <p className="meta">
+                    author:{blog.author?.name || 'Anonymous'} •{' '}
+                    {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : ''}
+                  </p>
+                  <div className="read-more-wrapper">
+                    <Link to={`/blog/${blog._id}`} className="read-more">Read More</Link>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
+            )}
+        </>
+      )}
 
       <div className="pagination">
         <button disabled={page === 1} onClick={() => setPage(page - 1)}>Previous</button>

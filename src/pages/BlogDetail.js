@@ -12,8 +12,8 @@ function BlogDetail({ user }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const blogRes = await axios.get(`http://localhost:5000/api/blogs/${id}`);
-                const commentRes = await axios.get(`http://localhost:5000/api/comments/${id}`);
+                const blogRes = await axios.get(`https://blogify-yours-blog.onrender.com/api/blogs/${id}`);
+                const commentRes = await axios.get(`https://blogify-yours-blog.onrender.com/api/comments/${id}`);
                 setBlog(blogRes.data);
                 setComments(commentRes.data);
             } catch (err) {
@@ -26,12 +26,12 @@ function BlogDetail({ user }) {
     const handleAddComment = async () => {
         if (!newComment.trim()) return;
         try {
-            await axios.post(`http://localhost:5000/api/comments/${id}`, {
+            await axios.post(`https://blogify-yours-blog.onrender.com/api/comments/${id}`, {
                 content: newComment,
                 user: user.name
             });
             setNewComment('');
-            const res = await axios.get(`http://localhost:5000/api/comments/${id}`);
+            const res = await axios.get(`https://blogify-yours-blog.onrender.com/api/comments/${id}`);
             setComments(res.data);
         } catch (err) {
             alert('Failed to add comment');

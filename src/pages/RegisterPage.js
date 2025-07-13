@@ -12,7 +12,7 @@ function RegisterPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/register', {
+      await axios.post('https://blogify-yours-blog.onrender.com/api/register', {
         name,
         password,
         role,

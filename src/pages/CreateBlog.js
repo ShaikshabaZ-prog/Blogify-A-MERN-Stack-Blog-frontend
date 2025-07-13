@@ -13,7 +13,7 @@ function CreateBlog({ user }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/blogs', {
+      await axios.post('https://blogify-yours-blog.onrender.com/api/blogs', {
         title,
         content,
         category,

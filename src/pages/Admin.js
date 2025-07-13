@@ -26,8 +26,8 @@ function Admin({ user, onLogout }) {
   }, []);
 
   const fetchData = async () => {
-    const usersRes = await axios.get('http://localhost:5000/api/users');
-    const blogsRes = await axios.get('http://localhost:5000/api/blogs');
+    const usersRes = await axios.get('https://blogify-yours-blog.onrender.com/api/users');
+    const blogsRes = await axios.get('https://blogify-yours-blog.onrender.com/api/blogs');
     setUsers(usersRes.data);
     setBlogs(blogsRes.data);
   };
@@ -44,26 +44,26 @@ function Admin({ user, onLogout }) {
 
   const handleDeleteUser = async (id) => {
     if (window.confirm('Delete this user?')) {
-      await axios.delete(`http://localhost:5000/api/users/${id}`);
+      await axios.delete(`https://blogify-yours-blog.onrender.com/api/users/${id}`);
       fetchData();
     }
   };
 
   const handleDeleteBlog = async (id) => {
     if (window.confirm('Delete this blog?')) {
-      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+      await axios.delete(`https://blogify-yours-blog.onrender.com/api/blogs/${id}`);
       fetchData();
     }
   };
 
   const handleEditUser = async (data) => {
-    await axios.put(`http://localhost:5000/api/users/${data._id}`, data);
+    await axios.put(`https://blogify-yours-blog.onrender.com/api/users/${data._id}`, data);
     setEditUser(null);
     fetchData();
   };
 
   const handleEditBlog = async (data) => {
-    await axios.put(`http://localhost:5000/api/blogs/${data._id}`, {
+    await axios.put(`https://blogify-yours-blog.onrender.com/api/blogs/${data._id}`, {
       ...data,
       role: 'admin',
       userId: user.id,
@@ -73,13 +73,13 @@ function Admin({ user, onLogout }) {
   };
 
   const handleCreateUser = async (data) => {
-    await axios.post('http://localhost:5000/api/register', data);
+    await axios.post('https://blogify-yours-blog.onrender.com/api/register', data);
     setCreateUserOpen(false);
     fetchData();
   };
 
   const handleCreateBlog = async (data) => {
-    await axios.post('http://localhost:5000/api/blogs', {
+    await axios.post('https://blogify-yours-blog.onrender.com/api/blogs', {
       ...data,
       author: user.id,
       role: 'admin',

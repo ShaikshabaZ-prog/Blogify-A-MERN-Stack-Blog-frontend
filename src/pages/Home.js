@@ -12,7 +12,7 @@ function Home() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/blogs');
+        const res = await axios.get('https://blogify-yours-blog.onrender.com/api/blogs');
         setBlogs(res.data);
       } catch (err) {
         console.error('Failed to fetch blogs', err);

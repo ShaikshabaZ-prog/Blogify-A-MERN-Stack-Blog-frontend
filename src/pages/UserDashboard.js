@@ -11,7 +11,7 @@ function UserDashboard({ user, onLogout }) {
 
   const fetchUserBlogs = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/blogs/user/${user.id}`);
+      const res = await axios.get(`https://blogify-yours-blog.onrender.com/api/blogs/user/${user.id}`);
       setBlogs(res.data);
     } catch (err) {
       console.error('Error fetching blogs:', err);
@@ -27,7 +27,7 @@ function UserDashboard({ user, onLogout }) {
     if (!title || !content) return alert('Title and content are required');
 
     try {
-      const res = await axios.post('http://localhost:5000/api/blogs', {
+      const res = await axios.post('https://blogify-yours-blog.onrender.com/api/blogs', {
         title,
         content,
         category,
@@ -46,7 +46,7 @@ function UserDashboard({ user, onLogout }) {
     if (!window.confirm('Are you sure you want to delete this blog?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+      await axios.delete(`https://blogify-yours-blog.onrender.com/api/blogs/${id}`);
       setBlogs(blogs.filter(blog => blog._id !== id));
     } catch (err) {
       console.error('Delete error:', err);
@@ -56,7 +56,7 @@ function UserDashboard({ user, onLogout }) {
 
   const handleUpdateBlog = async (updatedData) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/blogs/${updatedData._id}`, updatedData);
+      const res = await axios.put(`https://blogify-yours-blog.onrender.com/api/blogs/${updatedData._id}`, updatedData);
       setBlogs(blogs.map(b => (b._id === updatedData._id ? res.data : b)));
       setShowModal(false);
       setEditingBlog(null);

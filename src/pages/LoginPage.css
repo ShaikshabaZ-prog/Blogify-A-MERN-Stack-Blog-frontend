@@ -1,0 +1,87 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f1f5f9;
+  font-family: sans-serif;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.login-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 320px;
+  box-sizing: border-box;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e293b;
+  font-size: 24px;
+}
+
+.login-form input,
+.login-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-form button:hover {
+  background-color: #1e293b;
+}
+
+.toggle-password {
+  text-align: left;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: #e53e3e;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 400px) {
+  .login-form {
+    padding: 20px;
+  }
+
+  .login-form h2 {
+    font-size: 20px;
+  }
+
+  .login-form input,
+  .login-form select,
+  .login-form button {
+    font-size: 13px;
+    padding: 9px;
+  }
+
+  .toggle-password {
+    font-size: 0.85rem;
+  }
+}

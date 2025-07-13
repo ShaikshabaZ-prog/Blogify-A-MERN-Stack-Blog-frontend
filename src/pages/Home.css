@@ -1,0 +1,143 @@
+.home-container {
+  padding: 20px;
+}
+
+.hero-banner {
+  background-image: url('https://images.unsplash.com/photo-1552152370-fb05b25ff17d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Ymx1ZSUyMG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  color: white;
+  padding: 60px 30px;
+  border-radius: 12px;
+}
+
+.read-more-txt {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.search-box {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1 1 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  min-width: 0;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 992px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.blog-card {
+  background-image: url('https://wallpapercrafter.com/th8007/1759504-landscape-phone-camera-cloud-sky-blue-sky-backgrounds.jpg');
+  background-position: center;
+  background-size: cover;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.blog-card .title {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.blog-card .snippet,
+.blog-card .meta {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.read-more-wrapper {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.read-more {
+  background-color: #2e5cf394;
+  color: white;
+  text-decoration: none;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 9px;
+}
+
+.footer {
+  margin-top: 40px;
+  background-color: #0f265a;
+  color: white;
+  padding: 20px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

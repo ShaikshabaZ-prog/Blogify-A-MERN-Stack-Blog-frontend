@@ -1,0 +1,85 @@
+.blog-detail-container {
+    max-width: 700px;
+    width: 95%;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.blog-detail-container h2 {
+    font-size: 28px;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.blog-detail-container .meta {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.blog-detail-container .content {
+    white-space: pre-wrap;
+    margin-bottom: 2rem;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.comment-form button {
+    padding: 10px 16px;
+    background-color: #1e40af;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.comment-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.comment-list li {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #334155;
+}
+
+@media (max-width: 480px) {
+    .blog-detail-container {
+        padding: 0.75rem;
+    }
+
+    .blog-detail-container h2 {
+        font-size: 22px;
+    }
+
+    .blog-detail-container .content {
+        font-size: 14px;
+    }
+
+    .comment-form textarea,
+    .comment-form button {
+        font-size: 14px;
+    }
+
+    .comment-list li {
+        font-size: 13px;
+    }
+}

@@ -19,6 +19,7 @@ function Admin({ user, onLogout }) {
   const [searchBlog, setSearchBlog] = useState('');
   const [userPage, setUserPage] = useState(1);
   const [blogPage, setBlogPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -26,18 +27,25 @@ function Admin({ user, onLogout }) {
   }, []);
 
   const fetchData = async () => {
-    const usersRes = await axios.get('https://blogify-yours-blog.onrender.com/api/users');
-    const blogsRes = await axios.get('https://blogify-yours-blog.onrender.com/api/blogs');
-    setUsers(usersRes.data);
-    setBlogs(blogsRes.data);
+    setLoading(true);
+    try {
+      const usersRes = await axios.get('https://blogify-yours-blog.onrender.com/api/users');
+      const blogsRes = await axios.get('https://blogify-yours-blog.onrender.com/api/blogs');
+      setUsers(usersRes.data);
+      setBlogs(blogsRes.data);
+    } catch (err) {
+      console.error("Error fetching admin data:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredUsers = users.filter(u =>
-    u.name.toLowerCase().includes(searchUser.toLowerCase())
+    u.name?.toLowerCase().includes(searchUser.toLowerCase())
   );
   const filteredBlogs = blogs.filter(b =>
-    b.title.toLowerCase().includes(searchBlog.toLowerCase()) ||
-    b.category.toLowerCase().includes(searchBlog.toLowerCase())
+    b.title?.toLowerCase().includes(searchBlog.toLowerCase()) ||
+    b.category?.toLowerCase().includes(searchBlog.toLowerCase())
   );
   const paginatedUsers = filteredUsers.slice((userPage - 1) * itemsPerPage, userPage * itemsPerPage);
   const paginatedBlogs = filteredBlogs.slice((blogPage - 1) * itemsPerPage, blogPage * itemsPerPage);
@@ -91,81 +99,93 @@ function Admin({ user, onLogout }) {
 
   return (
     <div className="admin-wrapper">
-      <aside className="sidebar">
-        <h2>Blogify Admin</h2>
-        <ul>
-          <li className="active">Dashboard</li>
-          <li onClick={onLogout}>Logout</li>
-        </ul>
-      </aside>
-      <main className="admin-main">
-        <h1>Dashboard</h1>
-        <section>
-          <h3>All Users</h3>
-          <input
-            value={searchUser}
-            onChange={(e) => setSearchUser(e.target.value)}
-            placeholder="Search users..."
-          />
-          <button onClick={() => setCreateUserOpen(true)}>+ New User</button>
-          <table>
-            <thead>
-              <tr><th>Name</th><th>Role</th><th>Actions</th></tr>
-            </thead>
-            <tbody>
-              {paginatedUsers.map(u => (
-                <tr key={u._id}>
-                  <td>{u.name}</td>
-                  <td>{u.role}</td>
-                  <td>
-                    <button onClick={() => setEditUser(u)}>Edit</button>
-                    <button onClick={() => handleDeleteUser(u._id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="pagination">
-            <button disabled={userPage === 1} onClick={() => setUserPage(userPage - 1)}>Previous</button>
-            <span>Page {userPage}</span>
-            <button disabled={userPage * itemsPerPage >= filteredUsers.length} onClick={() => setUserPage(userPage + 1)}>Next</button>
-          </div>
-        </section>
+      {loading ? (
+        <div className="admin-loader">
+          <div className="spinner"></div>
+          <p>Loading admin data...</p>
+        </div>
+      ) : (
+        <>
+          <aside className="sidebar">
+            <h2>Blogify Admin</h2>
+            <ul>
+              <li className="active">Dashboard</li>
+              <li onClick={onLogout}>Logout</li>
+            </ul>
+          </aside>
+          <main className="admin-main">
+            <h1>Dashboard</h1>
 
-        <section>
-          <h3>All Blogs</h3>
-          <input
-            value={searchBlog}
-            onChange={(e) => setSearchBlog(e.target.value)}
-            placeholder="Search blogs..."
-          />
-          <button onClick={() => setCreateBlogOpen(true)}>+ New Blog</button>
-          <table>
-            <thead>
-              <tr><th>Title</th><th>Author</th><th>Category</th><th>Content</th><th>Actions</th></tr>
-            </thead>
-            <tbody>
-              {paginatedBlogs.map(b => (
-                <tr key={b._id}>
-                  <td>{b.title}</td>
-                  <td>{b.author?.name || 'N/A'}</td>
-                  <td>{b.category}</td>
-                  <td>{b.content}</td>
-                  <td>
-                    <button onClick={() => setEditBlog(b)}>Edit</button>
-                    <button onClick={() => handleDeleteBlog(b._id)}>Delete</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="pagination">
-            <button disabled={blogPage === 1} onClick={() => setBlogPage(blogPage - 1)}>Previous</button>
-            <span>Page {blogPage}</span>
-            <button disabled={blogPage * itemsPerPage >= filteredBlogs.length} onClick={() => setBlogPage(blogPage + 1)}>Next</button>
-          </div>
-        </section>
-      </main>
+            <section>
+              <h3>All Users</h3>
+              <input
+                value={searchUser}
+                onChange={(e) => setSearchUser(e.target.value)}
+                placeholder="Search users..."
+              />
+              <button onClick={() => setCreateUserOpen(true)}>+ New User</button>
+              <table>
+                <thead>
+                  <tr><th>Name</th><th>Role</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  {paginatedUsers.map(u => (
+                    <tr key={u._id}>
+                      <td>{u.name}</td>
+                      <td>{u.role}</td>
+                      <td>
+                        <button onClick={() => setEditUser(u)}>Edit</button>
+                        <button onClick={() => handleDeleteUser(u._id)} className="delete">Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="pagination">
+                <button disabled={userPage === 1} onClick={() => setUserPage(userPage - 1)}>Previous</button>
+                <span>Page {userPage}</span>
+                <button disabled={userPage * itemsPerPage >= filteredUsers.length} onClick={() => setUserPage(userPage + 1)}>Next</button>
+              </div>
+            </section>
+
+            {/* BLOGS */}
+            <section>
+              <h3>All Blogs</h3>
+              <input
+                value={searchBlog}
+                onChange={(e) => setSearchBlog(e.target.value)}
+                placeholder="Search blogs..."
+              />
+              <button onClick={() => setCreateBlogOpen(true)}>+ New Blog</button>
+              <table>
+                <thead>
+                  <tr><th>Title</th><th>Author</th><th>Category</th><th>Content</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                  {paginatedBlogs.map(b => (
+                    <tr key={b._id}>
+                      <td>{b.title}</td>
+                      <td>{b.author?.name || 'N/A'}</td>
+                      <td>{b.category}</td>
+                      <td>{b.content}</td>
+                      <td>
+                        <button onClick={() => setEditBlog(b)}>Edit</button>
+                        <button onClick={() => handleDeleteBlog(b._id)} className="delete">Delete</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="pagination">
+                <button disabled={blogPage === 1} onClick={() => setBlogPage(blogPage - 1)}>Previous</button>
+                <span>Page {blogPage}</span>
+                <button disabled={blogPage * itemsPerPage >= filteredBlogs.length} onClick={() => setBlogPage(blogPage + 1)}>Next</button>
+              </div>
+            </section>
+          </main>
+        </>
+      )}
+
       <EditUserModal isOpen={!!editUser} user={editUser} onClose={() => setEditUser(null)} onSave={handleEditUser} />
       <EditBlogModal isOpen={!!editBlog} blog={editBlog} onClose={() => setEditBlog(null)} onSave={handleEditBlog} />
       <CreateUserModal isOpen={createUserOpen} onClose={() => setCreateUserOpen(false)} onCreate={handleCreateUser} />
